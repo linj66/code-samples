@@ -1,0 +1,7 @@
+/* took 1.043 seconds to run on fresh cluster start */
+SELECT countries1.name AS first_country, countries2.name AS second_country
+FROM (SELECT x.`-car_code` AS code, x.name FROM hw5index.country x) AS countries1, (SELECT x.`-car_code` AS code, x.name FROM hw5index.country x) AS countries2, (SELECT shared_mtns.country1 AS first_country, shared_seas.country2 AS second_country
+FROM (SELECT DISTINCT c1 AS country1, c2 AS country2
+FROM hw5index.mountain m1, SPLIT(m1.`-country`, " ") c1, hw5index.mountain m2, SPLIT(m2.`-country`, " ") c2 WHERE m1.name = m2.name AND c1 < c2) AS shared_mtns, 
+(SELECT DISTINCT c1 AS country1, c2 AS country2
+FROM hw5index.sea s1, SPLIT(s1.`-country`, " ") c1, hw5index.sea s2, SPLIT(s2.`-country`, " ") c2 WHERE s1.name = s2.name AND c1 < c2) AS shared_seas WHERE shared_mtns.country1 = shared_seas.country1 AND shared_mtns.country2 = shared_seas.country2) AS shared_both WHERE countries1.code = shared_both.first_country AND countries2.code = shared_both.second_country;

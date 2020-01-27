@@ -1,0 +1,11 @@
+SELECT d.religion, ARRAY_COUNT(d.countries) AS num_countries 
+FROM (SELECT DISTINCT a.religion, (SELECT b.country FROM (SELECT y.name AS country, z.`#text` AS religion
+FROM hw5.world x, x.mondial.country y, CASE WHEN IS_ARRAY(y.religions) THEN y.religions
+WHEN y.religions IS UNKNOWN THEN []
+ELSE [y.religions] END z) AS b 
+WHERE a.religion = b.religion) AS countries
+FROM (SELECT y.name AS country, z.`#text` AS religion
+FROM hw5.world x, x.mondial.country y, CASE WHEN IS_ARRAY(y.religions) THEN y.religions
+WHEN y.religions IS UNKNOWN THEN []
+ELSE [y.religions] END z) AS a) AS d
+ORDER BY num_countries DESC;

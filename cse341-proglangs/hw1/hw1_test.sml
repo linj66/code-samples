@@ -1,0 +1,108 @@
+(* HW1 Testing Code *)
+use "hw1.sml";
+
+val date_list1 = [(1, 2, 1990), (5, 12, 2010), (3, 5, 1959), (3, 2, 2005), (5, 10, 1983), (19, 2, 1985)]
+
+val same_month_date_list = [(1, 2, 1989), (4, 2, 1840), (5, 2, 1950), (19, 2, 1995), (29, 2, 2000), (20, 2, 1989)]
+
+(* #1: is_older *)
+val test1_diff_year = is_older((1, 1, 1999), (1, 1, 2000))
+val test1_diff_year_reverse = is_older((1, 1, 2000), (1, 1, 1999))
+val test1_diff_month = is_older((1, 1, 1999), (1, 2, 1999))
+val test1_diff_day = is_older((1, 1, 1999), (2, 1, 1999))
+val test1_diff_day_reverse = is_older((2, 1, 1999), (1, 1, 1999))
+val test1_mixed = is_older((4, 11, 1983), (5, 10, 1924))
+val test1_mixed2 = is_older((6, 10, 1920), (29, 2, 2000))
+val test1_same_date = is_older((1, 1, 2000), (1, 1, 2000))
+
+(* #2: number_in_month *)
+val test2_some_matches = number_in_month(date_list1, 2)
+val test2_no_matches = number_in_month(date_list1, 7)
+val test2_all_matches = number_in_month(same_month_date_list, 2)
+val test2_no_matches2 = number_in_month(same_month_date_list, 1)
+val test2_empty_list = number_in_month([], 1)
+
+(* #3: number_in_months *)
+val test3_some_matches = number_in_months(date_list1, [2, 12, 9])
+val test3_no_matches = number_in_months(date_list1, [6, 7, 8])
+val test3_all_matches = number_in_months(same_month_date_list, [1, 2, 3])
+val test3_empty_list = number_in_months([], [1, 2, 3, 4, 5, 6])
+
+(* #4: dates_in_month *)
+val test4_some_matches = dates_in_month(date_list1, 2)
+val test4_no_matches = dates_in_month(date_list1, 7)
+val test4_all_matches = dates_in_month(same_month_date_list, 2)
+val test4_no_matches2 = dates_in_month(same_month_date_list, 1)
+val test4_empty_list = dates_in_month([], 1)
+
+(* #5: dates_in_months *)
+val test5_some_matches = dates_in_months(date_list1, [2, 12, 9])
+val test5_no_matches = dates_in_months(date_list1, [6, 7, 8])
+val test5_all_matches = dates_in_months(same_month_date_list, [1, 2, 3])
+val test5_empty_list = dates_in_months([], [1, 2, 3, 4, 5, 6])
+
+(* #6: get_nth *)
+val test6_get_3march = get_nth(month_list, 3)
+val test6_get_12december = get_nth(month_list, 12)
+
+(* #7: date_to_string *)
+val test7_1 = date_to_string((1, 2, 1990))
+val test7_2 = date_to_string((20, 12, 2009))
+val test7_3 = date_to_string((19, 4, 1984))
+
+(* #8: number_before_reaching_sum *)
+val test8_1 =  number_before_reaching_sum(10, [1, 2, 3, 4, 5, 6])
+val test8_2 =  number_before_reaching_sum(9, [1, 2, 3, 4, 5, 6])
+val test8_3 =  number_before_reaching_sum(6, [1, 2, 3, 4, 5, 6])
+val test8_4 =  number_before_reaching_sum(11, [1, 2, 3, 4, 5, 6])
+
+(* #9: what_month *)
+val test9_jan31 = what_month(31)
+val test9_feb1 = what_month(32)
+val test9_nov30 = what_month(334)
+val test9_dec1 = what_month(335)
+
+(* #10: month_range *)
+val test10_jan29_feb2 = month_range(29, 33)
+val test10_nov20_dec10 = month_range(314, 344)
+val test10_feb1_jan1 = month_range(32, 1)
+
+(* #11: oldest *)
+val test11_mixed = oldest(date_list1)
+val test11_mixed2 = oldest(same_month_date_list)
+val test11_duplicate_dates = oldest([(1, 2, 2000), (1, 1, 2000), (1, 1, 2000)])
+val test11_empty_list = oldest([])
+
+(* #12 cumulative_sum *)
+val test12_1 = cumulative_sum([1, 2, 3, 4, 5, 6])
+val test12_year = cumulative_sum(days_in_month)
+val test12_leap_year = cumulative_sum(days_in_month_leap)
+
+(* Challenge 1: remove_duplicates num/date in months *)
+(* number_in_months_challenge *)
+val testc1n_some_matches = number_in_months_challenge(date_list1, [2, 12, 9, 2, 12, 9, 2, 2, 2, 2, 2, 2])
+val testc1n_no_matches = number_in_months_challenge(date_list1, [6, 7, 8, 8, 6])
+val testc1n_all_matches = number_in_months_challenge(same_month_date_list, [1, 2, 3, 3, 2, 2, 1])
+val testc1n_empty_list = number_in_months_challenge([], [1, 1, 2, 3, 4, 5, 6, 6])
+
+(* dates_in_months_challenge *)
+val testc1d_some_matches = dates_in_months_challenge(date_list1, [2, 12, 9, 2, 12, 9, 2, 2, 2, 2])
+val testc1d_no_matches = dates_in_months_challenge(date_list1, [6, 7, 8, 8, 6])
+val testc1d_all_matches = dates_in_months_challenge(same_month_date_list, [1, 2, 3, 3, 2, 2, 1])
+val testc1d_empty_list = dates_in_months_challenge([], [1, 1, 2, 3, 4, 5, 6, 6])
+
+(* Challenge 2: reasonable_date *)
+val testc2_standard = reasonable_date((1, 2, 1999))
+val testc2_standard2 = reasonable_date((31, 12, 2018))
+val testc2_standard3 = reasonable_date((30, 9, 1990))
+val testc2_standard4 = reasonable_date((1, 1, 1))
+val testc2_invalid_year = reasonable_date((1, 1, 0))
+val testc2_invalid_month = reasonable_date((1, 0, 1990))
+val testc2_invalid_month2 = reasonable_date((1, 13, 1990))
+val testc2_invalid_day = reasonable_date((0, 1, 1990))
+val testc2_invalid_day2 = reasonable_date((32, 12, 1990))
+val testc2_invalid_leap = reasonable_date((29, 2, 2001))
+val testc2_valid_leap_mod4 = reasonable_date((29, 2, 2004))
+val testc2_invalid_day_leap = reasonable_date((30, 2, 2004))
+val testc2_valid_leap_mod400 = reasonable_date((29, 2, 2000))
+val testc2_invalid_leap_mod100 = reasonable_date((29, 2, 1900))

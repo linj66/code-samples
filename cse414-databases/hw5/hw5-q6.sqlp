@@ -1,0 +1,6 @@
+SELECT y.`-car_code` AS country_code, y.name AS country_name, col.mountains
+FROM hw5.world x, x.mondial.country y LEFT OUTER JOIN (SELECT DISTINCT a.country_code, a.country_name, (SELECT b.mountain, b.height FROM (SELECT y.name AS country_name, c AS country_code, m.name AS mountain, INT(m.height) AS height
+FROM hw5.world x, x.mondial.country y, x.mondial.mountain m, SPLIT(m.`-country`, " ") AS c WHERE c = y.`-car_code`) AS b WHERE b.country_code = a.country_code) AS mountains
+FROM (SELECT y.name AS country_name, c AS country_code, m.name AS mountain, INT(m.height) AS height
+FROM hw5.world x, x.mondial.country y, x.mondial.mountain m, SPLIT(m.`-country`, " ") AS c WHERE c = y.`-car_code`) AS a) AS col ON y.`-car_code` = col.country_code
+ORDER BY ARRAY_COUNT(col.mountains) DESC;

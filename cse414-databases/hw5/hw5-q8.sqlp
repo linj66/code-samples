@@ -1,0 +1,8 @@
+SELECT y.`-car_code` AS country_code, col.country_name AS col_country_name, y.name AS country_name, FLOAT(y.`-area`) AS area
+FROM hw5.world x, x.mondial.country y 
+LEFT OUTER JOIN
+(SELECT DISTINCT a.country_code, a.country_name, (SELECT b.sea FROM (SELECT c AS country_code, y.name AS country_name, s.name AS sea
+FROM hw5.world x, x.mondial.country y, x.mondial.sea s, SPLIT(s.`-country`, " ") c WHERE c = y.`-car_code`) AS b WHERE b.country_code = a.country_code) AS seas
+FROM (SELECT c AS country_code, y.name AS country_name, s.name AS sea
+FROM hw5.world x, x.mondial.country y, x.mondial.sea s, SPLIT(s.`-country`, " ") c WHERE c = y.`-car_code`) AS a) AS col ON y.`-car_code` = col.country_code WHERE col.country_name IS MISSING
+ORDER BY area DESC;

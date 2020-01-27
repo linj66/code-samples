@@ -1,0 +1,6 @@
+SELECT col.country_code, col.country_name, col.seas
+FROM (SELECT DISTINCT a.country_code, a.country_name, (SELECT b.sea FROM (SELECT c AS country_code, y.name AS country_name, s.name AS sea
+FROM hw5.world x, x.mondial.country y, x.mondial.sea s, SPLIT(s.`-country`, " ") c WHERE c = y.`-car_code`) AS b WHERE b.country_code = a.country_code) AS seas
+FROM (SELECT c AS country_code, y.name AS country_name, s.name AS sea
+FROM hw5.world x, x.mondial.country y, x.mondial.sea s, SPLIT(s.`-country`, " ") c WHERE c = y.`-car_code`) AS a) AS col WHERE ARRAY_COUNT(col.seas) >= 2
+ORDER BY ARRAY_COUNT(col.seas) DESC;
